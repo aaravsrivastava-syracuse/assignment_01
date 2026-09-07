@@ -1,1 +1,7 @@
 pytest
+streamlit
+pandas
+matplotlib
+nbformat
+nbclient
+ipykernel

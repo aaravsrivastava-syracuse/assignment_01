@@ -4,6 +4,8 @@ Each interface imports the same bill.py module, so these confirm the module is
 wired correctly into the console, notebook, and Streamlit front-ends.
 """
 
+from pathlib import Path
+
 import nbformat
 from nbclient import NotebookClient
 from streamlit.testing.v1 import AppTest
@@ -40,7 +42,11 @@ def _widget(widgets, key):
 
 
 def test_streamlit_app():
-    app = AppTest.from_file("code/dashboard.py")
+    # Use a stable path and allow time for first-run imports on Windows.
+    app = AppTest.from_file(
+        Path(__file__).resolve().parents[1] / "code" / "dashboard.py",
+        default_timeout=30,
+    )
     app.run()
     _widget(app.number_input, "subtotal").set_value(50.0)
     _widget(app.slider, "tip").set_value(20)
